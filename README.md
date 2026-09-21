@@ -24,13 +24,22 @@ Copy `SKILL.md` into a platform's project instructions, custom instructions, sys
 
 The skill asks the model to infer low-risk details, verify important assumptions, ask exactly one question when needed, and adapt the number of questions to complexity. It does not require a confirmation for routine work and always respects an explicit user request to proceed.
 
-## Load the extension MVP
+## Download and load the extension MVP in Chrome
 
-1. Open the browser's extension manager.
-2. Enable developer mode.
-3. Choose **Load unpacked** and select the `extension/` directory.
-4. Open any chat site, type a prompt, and submit it. The extension uses a local heuristic and may open a clarification panel.
-5. Answer the current question, choose **Continue**, and repeat as needed. Choose **Bypass and send** at any time.
+You do not install this MVP from the Chrome Web Store yet. Download the repository as a ZIP from GitHub using [this direct download link](https://github.com/Tselseya/llm-clarification-skill/archive/refs/heads/main.zip), or open the repository, click the green **Code** button, and choose **Download ZIP**.
+
+After downloading:
+
+1. Extract the ZIP file. Do not select the ZIP itself in Chrome.
+2. Open `chrome://extensions` in Chrome.
+3. Turn on **Developer mode** in the upper-right corner.
+4. Click **Load unpacked**.
+5. Open the extracted repository folder and select its **`extension` subfolder**. Select the folder containing `manifest.json`, not the repository root.
+6. Confirm that **LLM Clarification Skill** appears in the extension list and is enabled.
+7. Open a chat website, type a long or ambiguous prompt, and submit it. The extension may open a clarification panel.
+8. Answer the current question, choose **Continue**, and repeat as needed. Choose **Bypass and send** at any time.
+
+For local testing, use the included [`extension/test-fixture.html`](extension/test-fixture.html), or serve the extension directory with `python3 -m http.server 8000` and open `http://localhost:8000/test-fixture.html`. If you open the fixture as a `file://` URL instead, enable **Allow access to file URLs** for the extension on `chrome://extensions`.
 
 The generic adapter watches common `textarea` and `contenteditable` composers and common submit controls. Site-specific DOM changes can reduce reliability; the manual side-panel flow remains available from the extension icon. No build step or npm dependency is required.
 
