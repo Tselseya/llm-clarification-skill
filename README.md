@@ -25,9 +25,17 @@ Copy `SKILL.md` into a platform's project instructions, custom instructions, sys
 
 The skill asks the model to infer low-risk details, verify important assumptions, ask exactly one question when needed, and adapt the number of questions to complexity. It does not require a confirmation for routine work and always respects an explicit user request to proceed.
 
+## Upload packages for Claude, ChatGPT, and Manus
+
+The repository now includes platform-ready packages under `packages/`, each containing a Claude-compatible `skill.md` with YAML metadata and platform notes. Download the release packages from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases), then follow [`docs/PLATFORM-UPLOADS.md`](docs/PLATFORM-UPLOADS.md).
+
+- **Claude:** upload the Claude ZIP under **Customize > Skills**.
+- **ChatGPT:** upload the ChatGPT ZIP under **Skills > Create > Upload from your computer** where Skills are available; otherwise use Custom Instructions or Project instructions.
+- **Manus:** upload the `.skill` or ZIP under **Skills > + Add > Upload a skill**, or import the public GitHub repository.
+
 ## Quick download and install
 
-The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.2.0/llm-clarification-skill-0.2.0-chrome.zip) or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.2.0/llm-clarification-skill-0.2.0-firefox.xpi).
+The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.3.0/llm-clarification-skill-0.3.0-chrome.zip) or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.3.0/llm-clarification-skill-0.3.0-firefox.xpi).
 
 The repository currently provides a developer-mode package rather than a store-signed extension. That means Chrome still requires Developer mode and Firefox may require a temporary/developer install unless the XPI is signed by Mozilla.
 
@@ -56,11 +64,15 @@ Download the XPI from the [GitHub Releases page](https://github.com/Tselseya/llm
 
 ## Branding
 
-The selected logo is a high-contrast indigo speech bubble containing a question mark and green check mark, representing “clarify, then act.” Icon sizes are included in `extension/icons/`. Alternate concepts remain in `assets/` for future branding revisions.
+The selected logo is an indigo speech bubble with three white dots and a cyan question-mark badge, representing conversation and clarification. Icon sizes are included in `extension/icons/`. Alternate concepts remain in `assets/` for future branding revisions.
 
 ## Privacy modes
 
 The MVP is local-only by default. It does not send prompt text to a server. The options page provides a local retention toggle and an optional third-party analysis endpoint setting for advanced users who deliberately configure one. Review `PRIVACY.md` before enabling external analysis.
+
+## Policies and risk review
+
+The repository includes a [Privacy Policy](docs/PRIVACY-POLICY.md), [Terms and Conditions](docs/TERMS-AND-CONDITIONS.md), [Cookie Policy](docs/COOKIE-POLICY.md), [Form Consent statement](docs/FORM-CONSENT.md), [Accessibility QA record](docs/ACCESSIBILITY.md), [Copyright and Brand Review](docs/COPYRIGHT-AND-BRAND-REVIEW.md), [Owner Disclosure](docs/OWNER-DISCLOSURE.md), and [Risk Register](docs/RISK-REGISTER.md). The current code contains no project analytics, telemetry, cookies, forms, iframes, or third-party embeds. These documents do not constitute legal advice or a guarantee of compliance.
 
 ## Design principles
 

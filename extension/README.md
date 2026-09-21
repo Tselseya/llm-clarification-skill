@@ -1,6 +1,6 @@
 # Browser Extension MVP
 
-This is a no-build Manifest V3/WebExtension prototype. Release ZIP and XPI packages are published on the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). The extension uses the Clarify-Then-Act logo: an indigo speech bubble with a question mark and green check mark.
+This is a no-build Manifest V3/WebExtension prototype. Release ZIP and XPI packages are published on the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). The extension uses the Clarify-Then-Act logo selected by the project owner: an indigo speech bubble with three white dots and a cyan question-mark badge.
 
 For Chrome/Chromium, download the ZIP, extract it, open `chrome://extensions`, enable Developer mode, and choose **Load unpacked** on the extracted folder containing `manifest.json`. For Firefox development, open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `manifest.json`. Store-ready installs require browser-store signing.
 

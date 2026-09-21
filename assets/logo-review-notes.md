@@ -1,3 +1,3 @@
 # Logo review notes
 
-Reviewed concepts 1 and 2. Concept 1 has the strongest small-size legibility: a bold indigo speech bubble, high-contrast white question mark, and green check mark. Concept 2 is visually distinctive but has more texture and detail that may blur at toolbar sizes. Concept 1 is the current leading candidate for the extension icon.
+Concept 3 was selected as the primary logo by the project owner: an indigo speech bubble with three white dots and a cyan question-mark badge. It communicates conversation and clarification clearly. Concept 1 remains a high-contrast alternate, while concept 2 is more detailed and may blur at toolbar sizes. The generated concept is retained as design source material; no exclusivity or trademark clearance is claimed.

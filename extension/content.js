@@ -65,8 +65,8 @@
   function openPanel() {
     let panel = byId('llmcs-panel');
     if (!panel) {
-      panel = document.createElement('section'); panel.id = 'llmcs-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Clarification Skill');
-      panel.innerHTML = '<div class="llmcs-head"><strong>Clarification Skill</strong><button id="llmcs-close" aria-label="Close">×</button></div><p id="llmcs-intro">This request may benefit from one or two details before it is sent.</p><div id="llmcs-question"></div><textarea id="llmcs-answer" rows="3" placeholder="Your answer"></textarea><div class="llmcs-actions"><button id="llmcs-next">Continue</button><button id="llmcs-bypass" class="secondary">Bypass and send</button></div><small id="llmcs-progress"></small>';
+      panel = document.createElement('section'); panel.id = 'llmcs-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'false'); panel.setAttribute('aria-labelledby', 'llmcs-title'); panel.setAttribute('aria-describedby', 'llmcs-intro');
+      panel.innerHTML = '<div class="llmcs-head"><strong id="llmcs-title">Clarification Skill</strong><button id="llmcs-close" type="button" aria-label="Close clarification panel">×</button></div><p id="llmcs-intro">This request may benefit from one or two details before it is sent.</p><div id="llmcs-question" role="status" aria-live="polite"></div><label for="llmcs-answer">Your answer</label><textarea id="llmcs-answer" rows="3" placeholder="Type your answer"></textarea><div class="llmcs-actions"><button id="llmcs-next" type="button">Continue to next question</button><button id="llmcs-bypass" type="button" class="secondary">Bypass clarification and send</button></div><small id="llmcs-progress" role="status" aria-live="polite"></small>';
       document.documentElement.appendChild(panel);
       byId('llmcs-close').onclick = () => { state.pending = false; closePanel(); };
       byId('llmcs-bypass').onclick = () => submitOriginal();
@@ -101,5 +101,6 @@
     openPanel();
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && isComposer(e.target)) intercept(e); }, true);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.pending) { state.pending = false; closePanel(); } }, true);
   document.addEventListener('click', (e) => { const b = e.target.closest?.('button, [role="button"]'); if (!b) return; const label = `${b.getAttribute('aria-label') || ''} ${b.textContent || ''}`; if (/send|submit/i.test(label)) intercept(e); }, true);
 })();

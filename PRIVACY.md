@@ -1,5 +1,7 @@
 # Privacy
 
+For the complete public policy set, see [`docs/PRIVACY-POLICY.md`](docs/PRIVACY-POLICY.md), [`docs/COOKIE-POLICY.md`](docs/COOKIE-POLICY.md), and [`docs/FORM-CONSENT.md`](docs/FORM-CONSENT.md).
+
 The portable skill is text and has no data collection behavior.
 
 The browser-extension MVP runs its ambiguity heuristic in the browser. By default, prompt text, answers, and conversation context are not sent to a project server. The extension may keep ordinary browser extension settings in local storage. The optional retention setting is user-controlled.
