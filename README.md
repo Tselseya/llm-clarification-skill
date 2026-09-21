@@ -1,87 +1,43 @@
 # LLM Clarification Skill
 
-A portable, platform-neutral skill that makes an LLM decide when clarification is necessary, ask **one useful question at a time**, and stop when the task is actionable. It includes one universal upload package and a lightweight browser-extension MVP for stronger, user-controlled interception.
+A portable instruction package and browser plugin that helps an LLM clarify tasks one question at a time.
 
-## What this is—and is not
+## What this is
 
-The skill is an instruction layer for ChatGPT, Claude, Manus, APIs, local models, and other assistants. It encourages adaptive clarification based on complexity instead of forcing a fixed number of questions. A prompt or uploaded skill cannot technically override a platform's system instructions or guarantee compliance.
+The universal `SKILL.md` guides an LLM to ask concise clarifying questions until it understands the task. The optional browser plugin automatically inserts an editable opening instruction once into the first empty composer of each detected new chat thread:
 
-The browser extension adds a generic, local-first workflow: it detects likely ambiguous prompts, pauses sending long or underspecified requests, asks one question at a time, and appends a structured requirements brief. Users can bypass the workflow at any time.
+> Ask me clarifying questions one at a time until you understand the task.
+
+The user can edit or delete that inserted text before sending. This replaces the earlier clarification popover and avoids blocking or rewriting ordinary submissions. The plugin extracts the composer text locally; it does not ask questions, intercept sends, or transmit prompts to a project server.
 
 ## Repository map
 
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | Universal skill and compact copy |
-| `packages/llm-clarification-skill/` | One universal upload package for any compatible LLM; exactly one `SKILL.md` |
-| `extension/` | Dependency-free Manifest V3/WebExtension MVP |
-| `assets/` | Logo concepts and selected extension branding |
+| `packages/llm-clarification-skill/` | Universal upload package |
+| `extension/` | No-build browser plugin and reusable prompt extractor |
+| `assets/` | Logo concepts and extension branding |
 | `PRIVACY.md` | Data handling and privacy choices |
 | `LICENSE` | MIT license |
 
 ## Use the skill
 
-Copy `SKILL.md` into any LLM's project instructions, custom instructions, system prompt, or skill/knowledge upload area. For a shorter field, use the compact copy at the bottom of the file. The same file is intended for Claude, ChatGPT, Manus, APIs, local models, and other compatible LLMs.
+Copy `SKILL.md` into an LLM's project instructions, custom instructions, system prompt, or skill/knowledge upload area. The same file is intended for Claude, ChatGPT, Manus, APIs, local models, and other compatible LLMs. The skill guides model behavior; it cannot technically force a platform or model to comply.
 
-The skill asks the model to infer low-risk details, verify important assumptions, ask exactly one question when needed, and adapt the number of questions to complexity. It does not require a confirmation for routine work and always respects an explicit user request to proceed.
+## Install the browser plugin
 
-## One universal upload package
+For Chrome/Chromium, download or clone the repository, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the `extension/` folder containing `manifest.json`. For Firefox development, open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `extension/manifest.json`. Store-ready installs require browser-store signing.
 
-Download the single [universal skill ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal-skill.zip) or [universal `.skill` package](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal.skill). Each contains exactly one root-level `SKILL.md`. Upload that one package wherever your LLM supports reusable skills, or paste `SKILL.md` into its instruction field. See [`docs/UNIVERSAL-INSTALL.md`](docs/UNIVERSAL-INSTALL.md).
+After installation, open a chat site. When a new thread has an empty composer, the plugin inserts the opening instruction once. Edit or delete that text whenever you want; deleting it is the bypass. Open the plugin action or options page to customize the instruction or disable automatic insertion.
 
-Claude users can upload it under **Customize > Skills**. ChatGPT users can use **Skills > Create > Upload from your computer** where that feature is available. Manus users can use **Skills > + Add > Upload a skill** or import this public repository. No platform-specific skill adapters are required.
+For local testing, open [`extension/test-fixture.html`](extension/test-fixture.html) after loading the unpacked plugin. The fixture verifies insertion and ordinary host submission without a popup or send interception.
 
-## Quick download and install
+## Privacy and limitations
 
-The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium CRX](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.crx), [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.zip), or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-firefox.xpi).
+The plugin is local-only by default. It uses browser extension storage for settings and reads composer text only to decide whether an empty composer is ready for insertion. It has no analytics, telemetry, cookies, iframes, tracking pixels, or project-operated server. Generic browser integration cannot guarantee coverage of every website's editor or new-thread controls.
 
-The repository currently provides a developer-mode package rather than a store-signed extension. That means Chrome still requires Developer mode and Firefox may require a temporary/developer install unless the XPI is signed by Mozilla.
-
-## Download and load the extension MVP in Chrome
-
-Do not use the green GitHub **Code > Download ZIP** repository archive for extension installation; that archive contains the source repository, not a loadable extension root. Use the [Chrome CRX](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.crx) for drag-and-drop, or the [Chrome extension ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.zip) for manual extraction.
-
-After downloading:
-
-1. Open `chrome://extensions` in Chrome.
-2. Turn on **Developer mode** in the upper-right corner.
-3. Drag the downloaded `.crx` file onto the extensions page and confirm the install if Chrome presents the confirmation.
-4. If Chrome rejects the CRX, extract the extension ZIP, click **Load unpacked**, and select the extracted folder containing `manifest.json`.
-5. Open a chat website, type a long or ambiguous prompt, and submit it. The extension may open a clarification panel.
-6. Answer the current question, choose **Continue**, and repeat as needed. Choose **Bypass and send** at any time.
-
-For local testing, use the included [`extension/test-fixture.html`](extension/test-fixture.html), or serve the extension directory with `python3 -m http.server 8000` and open `http://localhost:8000/test-fixture.html`. If you open the fixture as a `file://` URL instead, enable **Allow access to file URLs** for the extension on `chrome://extensions`.
-
-The generic content script watches common `textarea` and `contenteditable` composers and common submit controls. Website DOM changes can reduce reliability; the manual side-panel flow remains available from the extension icon. No build step or npm dependency is required.
-
-## Firefox
-
-Download the XPI from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). For local development, open `about:debugging`, select **This Firefox**, choose **Load Temporary Add-on**, and select `manifest.json` inside the extracted `extension/` directory. A production Firefox install requires a signed add-on.
-
-## Branding
-
-The selected logo is an indigo speech bubble with three white dots and a cyan question-mark badge, representing conversation and clarification. Icon sizes are included in `extension/icons/`. Alternate concepts remain in `assets/` for future branding revisions.
-
-## Privacy modes
-
-The MVP is local-only by default. It does not send prompt text to a server. The options page provides a local retention toggle and an optional third-party analysis endpoint setting for advanced users who deliberately configure one. Review `PRIVACY.md` before enabling external analysis.
-
-## Policies and risk review
-
-The repository includes a [Privacy Policy](docs/PRIVACY-POLICY.md), [Terms and Conditions](docs/TERMS-AND-CONDITIONS.md), [Cookie Policy](docs/COOKIE-POLICY.md), [Form Consent statement](docs/FORM-CONSENT.md), [Accessibility QA record](docs/ACCESSIBILITY.md), [Copyright and Brand Review](docs/COPYRIGHT-AND-BRAND-REVIEW.md), [Owner Disclosure](docs/OWNER-DISCLOSURE.md), and [Risk Register](docs/RISK-REGISTER.md). The current code contains no project analytics, telemetry, cookies, forms, iframes, or third-party embeds. These documents do not constitute legal advice or a guarantee of compliance.
-
-## Design principles
-
-- **One question at a time:** reduce user friction and maximize answer quality.
-- **Adaptive stopping:** ask until actionable, not until a fixed count.
-- **User control:** explicit bypass always works.
-- **Risk-aware:** high-impact tasks receive stronger assumption checks.
-- **Portable:** the core behavior is plain Markdown, not vendor-specific code.
-- **Honest enforcement:** instructions guide models; the extension provides stronger local interception but cannot control every website implementation.
-
-## Roadmap
-
-Future work can add signed releases, more accessibility testing, browser-store packaging, optional model-backed ambiguity scoring, encrypted local history, and a formal evaluation set for question quality and unnecessary-question rate.
+Review the [Privacy Policy](docs/PRIVACY-POLICY.md), [Terms and Conditions](docs/TERMS-AND-CONDITIONS.md), [Accessibility QA record](docs/ACCESSIBILITY.md), and [Risk Register](docs/RISK-REGISTER.md) before distributing modified builds.
 
 ## License
 

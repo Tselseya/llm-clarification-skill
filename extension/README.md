@@ -1,19 +1,32 @@
-# Browser Extension MVP
+# LLM Clarification browser plugin
 
-This is a no-build Manifest V3/WebExtension prototype. Release ZIP and XPI packages are published on the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). The extension uses the Clarify-Then-Act logo selected by the project owner: an indigo speech bubble with three white dots and a cyan question-mark badge.
-
-For Chrome/Chromium, download the ZIP, extract it, open `chrome://extensions`, enable Developer mode, and choose **Load unpacked** on the extracted folder containing `manifest.json`. For Firefox development, open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `manifest.json`. Store-ready installs require browser-store signing.
+This is a no-build Manifest V3/WebExtension plugin. It uses a small prompt-extractor module plus a generic content script to recognize common LLM composers.
 
 ## Behavior
 
-The content script uses local heuristics to estimate whether a prompt is complex or appears to omit audience, format, constraints, or success criteria. When it decides clarification may help, it intercepts common Enter and Send-button submission paths and opens a composer-anchored popover immediately above or below the active LLM input. It supports common `textarea`, text-input, contenteditable, and ARIA textbox composers. The popover follows scrolling and resizing instead of remaining in a fixed lower-screen corner. The user answers one question at a time, then the extension appends a structured clarification brief and sends the prompt. **Bypass and send** is always available.
+When an empty composer is detected at the start of a new chat thread, the plugin inserts the configurable opening instruction:
 
-The extension does not interrupt every message. A routine request such as “What time is it?” may be sent directly. To test interception, use a meaningful complex request such as “Build a launch plan for my product, compare three channels, include a budget and timeline, and format the result as a decision table.”
+> Ask me clarifying questions one at a time until you understand the task.
 
-## Known MVP limits
+The instruction is inserted once per detected thread. The user remains in control: they can edit it, delete it, or send it as-is. The plugin does not pause submission, open a clarification popup, ask questions itself, or send prompt text to a server.
 
-Websites use different editors, event handlers, shadow DOM, and accessibility labels. Generic interception cannot guarantee coverage. A production release should improve the general event-detection layer, add a manual command to open the panel, strengthen event isolation, complete accessibility review, and add browser-store packaging. The extension does not itself understand every task like an LLM; it is a local heuristic companion to the portable skill. ChatGPT may change its composer or send-control DOM, so test the local fixture first and treat live-site interception as best effort.
+The plugin detects URL/history changes, common “New chat” controls, dynamically created composers, `textarea`, text inputs, `contenteditable`, and ARIA textbox elements. Website DOM changes can reduce reliability because this is a generic, vendor-neutral integration.
+
+## Installation
+
+For Chrome or Chromium, open `chrome://extensions`, enable Developer mode, select **Load unpacked**, and choose this directory. For Firefox development, open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `manifest.json`.
+
+## Settings
+
+Open the extension action and choose **Edit instruction and settings**, or open the options page directly. The instruction can be changed without editing code. Disable **Enable automatic instruction** to stop insertion.
 
 ## Local verification fixture
 
-Open `test-fixture.html` directly in Chrome after loading the unpacked extension. The fixture includes a long ambiguous prompt, a contenteditable composer, Send buttons, and a host event log. Verify that an ambiguous prompt is blocked before the fixture's submit handler runs, that the panel asks one question at a time, that answers are appended after completion, and that **Bypass and send** allows the original prompt through. Short or sufficiently specified prompts should submit directly.
+Open `test-fixture.html` after loading the unpacked plugin. Verify that an empty textarea receives the instruction once, that a second DOM render does not duplicate it, and that deleting the instruction leaves the composer empty. Click **Send** to confirm the host page receives the user's final text normally.
+
+## Files
+
+- `prompt-extractor.js` — reusable local composer and prompt extraction plugin.
+- `content.js` — thread detection and one-time editable instruction injection.
+- `options.html` / `options.js` — local settings.
+- `test-fixture.html` — deterministic manual fixture.

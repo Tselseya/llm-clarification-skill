@@ -157,3 +157,9 @@ The current project does not provide a hosted account system, a prompt vault, a 
 [2]: https://help.openai.com/en/articles/20001066-skills-in-chatgpt "Skills in ChatGPT | OpenAI Help Center"
 [3]: https://help.manus.im/en/articles/14753565-how-to-share-and-use-skills-in-manus "How to Share and Use Skills in Manus?"
 [4]: https://github.com/Tselseya/llm-clarification-skill/releases/tag/v0.4.3 "LLM Clarification Skill v0.4.3 release"
+
+## v0.5.0 redesign: automatic opening instruction and prompt-extractor plugin
+
+The v0.5.0 direction replaces the composer-anchored clarification popover with a simpler, user-editable opening instruction. When an empty composer appears at the start of a detected new thread, the browser plugin inserts the configured instruction once. The user can edit or delete that text; deletion is the bypass path. The plugin no longer intercepts Enter or Send events, asks questions itself, appends a clarification brief, or blocks ordinary submissions.
+
+The former generic content script was split conceptually into `prompt-extractor.js`, which exposes local composer detection and text extraction, and `content.js`, which handles thread changes and one-time injection. The universal skill package now uses the same direct instruction: “Ask me clarifying questions one at a time until you understand the task.”

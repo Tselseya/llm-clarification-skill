@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "LLM Clarification Skill",
-  "version": "0.4.3",
-  "description": "Ask adaptive, one-at-a-time clarification questions before ambiguous prompts are sent to an LLM.",
+  "version": "0.5.0",
+  "description": "Insert an editable clarification instruction once at the start of each new LLM chat thread.",
   "permissions": ["storage"],
   "host_permissions": ["<all_urls>"],
   "icons": {
@@ -25,8 +25,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["content.css"],
+      "js": ["prompt-extractor.js", "content.js"],
       "run_at": "document_idle"
     }
   ]

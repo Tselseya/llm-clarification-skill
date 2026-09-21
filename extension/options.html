@@ -1,8 +1,10 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>LLM Clarification Skill settings</title><link rel="stylesheet" href="options.css"></head>
-<body><main><h1>LLM Clarification Skill settings</h1><p>Defaults are local-only. The MVP never sends prompt text to a server unless you explicitly configure an analysis endpoint.</p>
-<label><input id="enabled" type="checkbox"> Enable interception</label>
+<html lang="en">
+<head><meta charset="utf-8"><title>LLM Clarification Skill settings</title><link rel="stylesheet" href="options.css"></head>
+<body><main><h1>LLM Clarification Skill settings</h1><p>The plugin works locally. It inserts the opening instruction into an empty composer once per detected chat thread. Users can edit or delete it before sending.</p>
+<label><input id="enabled" type="checkbox"> Enable automatic instruction</label>
 <label><input id="retain" type="checkbox"> Retain recent clarification state locally</label>
+<label>Opening instruction<textarea id="instruction" rows="5" spellcheck="true"></textarea></label>
 <label>Optional analysis endpoint (advanced)<input id="endpoint" type="url" placeholder="https://example.invalid/analyze"></label>
 <button id="save">Save settings</button><span id="status" role="status"></span>
 <script src="options.js"></script></main></body></html>
