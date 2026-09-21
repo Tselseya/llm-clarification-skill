@@ -6,11 +6,13 @@ For Chrome/Chromium, download the ZIP, extract it, open `chrome://extensions`, e
 
 ## Behavior
 
-The content script uses local heuristics to estimate whether a prompt is long or complex and whether it appears to omit audience, format, constraints, or success criteria. When it decides clarification may help, it intercepts common Enter and Send-button submission paths and opens a floating panel. The user answers one question at a time, then the extension appends a structured clarification brief and sends the prompt. **Bypass and send** is always available.
+The content script uses local heuristics to estimate whether a prompt is complex or appears to omit audience, format, constraints, or success criteria. When it decides clarification may help, it intercepts common Enter and Send-button submission paths and opens a floating panel. It supports common `textarea`, text-input, contenteditable, and ARIA textbox composers. The user answers one question at a time, then the extension appends a structured clarification brief and sends the prompt. **Bypass and send** is always available.
+
+The extension does not interrupt every message. A routine request such as “What time is it?” may be sent directly. To test interception, use a meaningful complex request such as “Build a launch plan for my product, compare three channels, include a budget and timeline, and format the result as a decision table.”
 
 ## Known MVP limits
 
-Websites use different editors, event handlers, shadow DOM, and accessibility labels. Generic interception cannot guarantee coverage. A production release should improve the general event-detection layer, add a manual command to open the panel, strengthen event isolation, complete accessibility review, and add browser-store packaging. The extension does not itself understand every task like an LLM; it is a local heuristic companion to the portable skill.
+Websites use different editors, event handlers, shadow DOM, and accessibility labels. Generic interception cannot guarantee coverage. A production release should improve the general event-detection layer, add a manual command to open the panel, strengthen event isolation, complete accessibility review, and add browser-store packaging. The extension does not itself understand every task like an LLM; it is a local heuristic companion to the portable skill. ChatGPT may change its composer or send-control DOM, so test the local fixture first and treat live-site interception as best effort.
 
 ## Local verification fixture
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "LLM Clarification Skill",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Ask adaptive, one-at-a-time clarification questions before ambiguous prompts are sent to an LLM.",
   "permissions": ["storage"],
   "host_permissions": ["<all_urls>"],

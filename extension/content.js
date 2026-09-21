@@ -9,8 +9,11 @@
 
   function getComposer() {
     const active = document.activeElement;
-    if (active && isComposer(active)) return active;
-    return document.querySelector('textarea:not([disabled]), [contenteditable="true"]');
+    if (active) {
+      const focusedComposer = active.closest?.('textarea:not([disabled]), input[type="text"]:not([disabled]), [contenteditable="true"], [role="textbox"]');
+      if (focusedComposer && isComposer(focusedComposer)) return focusedComposer;
+    }
+    return document.querySelector('textarea:not([disabled]), input[type="text"]:not([disabled]), [contenteditable="true"], [role="textbox"]');
   }
   function isComposer(el) { return el && (el.matches('textarea, input[type="text"], [contenteditable="true"]') || el.getAttribute('role') === 'textbox'); }
   function textOf(el) { return el?.value ?? el?.innerText ?? el?.textContent ?? ''; }
@@ -50,7 +53,7 @@
     return root.querySelector('button[type="submit"], button[aria-label*="send" i], button[aria-label*="submit" i], button[data-testid*="send" i]');
   }
   function shouldIntercept(prompt) {
-    return prompt.trim().length >= 80 && missingQuestions(prompt).length > 0;
+    return prompt.trim().length > 0 && missingQuestions(prompt).length > 0;
   }
   function submitOriginal() {
     state.bypass = true;
@@ -100,7 +103,10 @@
     state.pending = true; state.composer = composer; state.original = prompt; state.answers = []; state.queue = missingQuestions(prompt); state.index = 0;
     openPanel();
   }
-  document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && isComposer(e.target)) intercept(e); }, true);
+  document.addEventListener('keydown', (e) => {
+    const targetComposer = e.target?.closest?.('textarea, input[type="text"], [contenteditable="true"], [role="textbox"]');
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && (isComposer(e.target) || targetComposer)) intercept(e);
+  }, true);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.pending) { state.pending = false; closePanel(); } }, true);
   document.addEventListener('click', (e) => { const b = e.target.closest?.('button, [role="button"]'); if (!b) return; const label = `${b.getAttribute('aria-label') || ''} ${b.textContent || ''}`; if (/send|submit/i.test(label)) intercept(e); }, true);
 })();
