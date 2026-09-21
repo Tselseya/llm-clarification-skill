@@ -27,7 +27,7 @@ Copy `SKILL.md` into an LLM's project instructions, custom instructions, system 
 
 ## Install the browser plugin
 
-For Chrome/Chromium, download or clone the repository, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the `extension/` folder containing `manifest.json`. For Firefox development, open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `extension/manifest.json`. Store-ready installs require browser-store signing.
+For the easiest installation, download the current release's **CRX** and drag it onto `chrome://extensions`. If Chrome blocks the CRX because it is not Chrome Web Store-signed, download the release **ZIP**, extract it, and use **Developer mode > Load unpacked**. Firefox users can load the release XPI temporarily through `about:debugging`. Follow the complete, explicit steps in [`docs/INSTALL.md`](docs/INSTALL.md).
 
 After installation, open a chat site. When a new thread has an empty composer, the plugin inserts the opening instruction once. Edit or delete that text whenever you want; deleting it is the bypass. Open the plugin action or options page to customize the instruction. The **Enable automatic instruction** toggle can disable insertion without deleting the saved instruction; re-enable it later to restore the behavior.
 

@@ -35,6 +35,8 @@ The **Opening instruction** textarea controls the text inserted into a new threa
 
 ## 4. Installation
 
+For the shortest user-facing installation path, follow [`docs/INSTALL.md`](docs/INSTALL.md). It includes the exact drag-and-drop CRX steps, the ZIP fallback, Firefox steps, update steps, and troubleshooting for old installed copies.
+
 ### 4.1 Chrome or Chromium
 
 Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the `extension/` directory that directly contains `manifest.json`. Do not select the repository root or a parent directory.
