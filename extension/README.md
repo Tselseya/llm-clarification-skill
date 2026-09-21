@@ -9,3 +9,7 @@ The content script uses local heuristics to estimate whether a prompt is long or
 ## Known MVP limits
 
 Websites use different editors, event handlers, shadow DOM, and accessibility labels. Generic interception cannot guarantee coverage. A production release should add tested site adapters, a manual command to open the panel, stronger event isolation, accessibility review, and browser-store packaging. The extension does not itself understand every task like an LLM; it is a local heuristic companion to the portable skill.
+
+## Local verification fixture
+
+Open `test-fixture.html` directly in Chrome after loading the unpacked extension. The fixture includes a long ambiguous prompt, a contenteditable composer, Send buttons, and a host event log. Verify that an ambiguous prompt is blocked before the fixture's submit handler runs, that the panel asks one question at a time, that answers are appended after completion, and that **Bypass and send** allows the original prompt through. Short or sufficiently specified prompts should submit directly.

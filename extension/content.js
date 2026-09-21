@@ -1,7 +1,11 @@
 (() => {
   if (window.top !== window.self) return;
-  const state = { pending: false, bypass: false, composer: null, original: '', answers: [], queue: [], index: 0 };
+  const state = { pending: false, bypass: false, enabled: true, composer: null, original: '', answers: [], queue: [], index: 0 };
   const byId = (id) => document.getElementById(id);
+  chrome.storage.local.get({ enabled: true }, (settings) => { state.enabled = settings.enabled; });
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes.enabled) state.enabled = changes.enabled.newValue;
+  });
 
   function getComposer() {
     const active = document.activeElement;
@@ -84,15 +88,14 @@
     if (state.index >= state.queue.length) submitOriginal(); else renderQuestion();
   }
   function intercept(e) {
-    if (state.bypass || state.pending) return;
-    chrome.storage.local.get({ enabled: true }, (settings) => {
-      if (!settings.enabled) return;
-      const composer = getComposer(); const prompt = textOf(composer).trim();
-      if (!composer || !prompt || !shouldIntercept(prompt)) return;
-      e.preventDefault(); e.stopImmediatePropagation();
-      state.pending = true; state.composer = composer; state.original = prompt; state.answers = []; state.queue = missingQuestions(prompt); state.index = 0;
-      openPanel();
-    });
+    if (state.bypass || state.pending || !state.enabled) return;
+    const composer = getComposer(); const prompt = textOf(composer).trim();
+    if (!composer || !prompt || !shouldIntercept(prompt)) return;
+    // Block synchronously; an asynchronous storage lookup would let the host
+    // site's own submit handler send the prompt before the panel opens.
+    e.preventDefault(); e.stopImmediatePropagation();
+    state.pending = true; state.composer = composer; state.original = prompt; state.answers = []; state.queue = missingQuestions(prompt); state.index = 0;
+    openPanel();
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && isComposer(e.target)) intercept(e); }, true);
   document.addEventListener('click', (e) => { const b = e.target.closest?.('button, [role="button"]'); if (!b) return; const label = `${b.getAttribute('aria-label') || ''} ${b.textContent || ''}`; if (/send|submit/i.test(label)) intercept(e); }, true);
