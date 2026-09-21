@@ -6,7 +6,7 @@ For Chrome/Chromium, download the ZIP, extract it, open `chrome://extensions`, e
 
 ## Behavior
 
-The content script uses local heuristics to estimate whether a prompt is complex or appears to omit audience, format, constraints, or success criteria. When it decides clarification may help, it intercepts common Enter and Send-button submission paths and opens a floating panel. It supports common `textarea`, text-input, contenteditable, and ARIA textbox composers. The user answers one question at a time, then the extension appends a structured clarification brief and sends the prompt. **Bypass and send** is always available.
+The content script uses local heuristics to estimate whether a prompt is complex or appears to omit audience, format, constraints, or success criteria. When it decides clarification may help, it intercepts common Enter and Send-button submission paths and opens a composer-anchored popover immediately above or below the active LLM input. It supports common `textarea`, text-input, contenteditable, and ARIA textbox composers. The popover follows scrolling and resizing instead of remaining in a fixed lower-screen corner. The user answers one question at a time, then the extension appends a structured clarification brief and sends the prompt. **Bypass and send** is always available.
 
 The extension does not interrupt every message. A routine request such as “What time is it?” may be sent directly. To test interception, use a meaningful complex request such as “Build a launch plan for my product, compare three channels, include a budget and timeline, and format the result as a decision table.”
 
