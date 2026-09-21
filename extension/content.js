@@ -54,7 +54,10 @@
   }
   function submitOriginal() {
     state.bypass = true;
-    setText(state.composer, state.original + '\n\n--- Clarification brief ---\n' + state.answers.map((a, i) => `${i + 1}. ${a.question}\nAnswer: ${a.answer}`).join('\n'));
+    const brief = state.answers.length
+      ? '\n\n--- Clarification brief ---\n' + state.answers.map((a, i) => `${i + 1}. ${a.question}\nAnswer: ${a.answer}`).join('\n')
+      : '';
+    setText(state.composer, state.original + brief);
     const button = findSubmit();
     if (button) button.click(); else state.composer.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
     setTimeout(() => { state.bypass = false; state.pending = false; closePanel(); }, 250);
