@@ -15,6 +15,7 @@ The browser extension adds a generic, local-first workflow: it detects likely am
 | `SKILL.md` | Universal skill and compact copy |
 | `platform/` | Copies adapted for ChatGPT, Claude, Manus, and generic system prompts |
 | `extension/` | Dependency-free Manifest V3/WebExtension MVP |
+| `assets/` | Logo concepts and selected extension branding |
 | `PRIVACY.md` | Data handling and privacy choices |
 | `LICENSE` | MIT license |
 
@@ -23,6 +24,12 @@ The browser extension adds a generic, local-first workflow: it detects likely am
 Copy `SKILL.md` into a platform's project instructions, custom instructions, system prompt, or skill/knowledge upload area. For a shorter field, use the compact copy at the bottom of the file. Platform-specific versions are in `platform/`.
 
 The skill asks the model to infer low-risk details, verify important assumptions, ask exactly one question when needed, and adapt the number of questions to complexity. It does not require a confirmation for routine work and always respects an explicit user request to proceed.
+
+## Quick download and install
+
+The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). Use the Chrome/Chromium ZIP for Chrome, Edge, Brave, or other Chromium browsers, or the XPI for Firefox.
+
+The repository currently provides a developer-mode package rather than a store-signed extension. That means Chrome still requires Developer mode and Firefox may require a temporary/developer install unless the XPI is signed by Mozilla.
 
 ## Download and load the extension MVP in Chrome
 
@@ -42,6 +49,14 @@ After downloading:
 For local testing, use the included [`extension/test-fixture.html`](extension/test-fixture.html), or serve the extension directory with `python3 -m http.server 8000` and open `http://localhost:8000/test-fixture.html`. If you open the fixture as a `file://` URL instead, enable **Allow access to file URLs** for the extension on `chrome://extensions`.
 
 The generic adapter watches common `textarea` and `contenteditable` composers and common submit controls. Site-specific DOM changes can reduce reliability; the manual side-panel flow remains available from the extension icon. No build step or npm dependency is required.
+
+## Firefox
+
+Download the XPI from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). For local development, open `about:debugging`, select **This Firefox**, choose **Load Temporary Add-on**, and select `manifest.json` inside the extracted `extension/` directory. A production Firefox install requires a signed add-on.
+
+## Branding
+
+The selected logo is a high-contrast indigo speech bubble containing a question mark and green check mark, representing “clarify, then act.” Icon sizes are included in `extension/icons/`. Alternate concepts remain in `assets/` for future branding revisions.
 
 ## Privacy modes
 
