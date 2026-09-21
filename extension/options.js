@@ -1,0 +1,3 @@
+const fields = { enabled: document.querySelector('#enabled'), retain: document.querySelector('#retain'), endpoint: document.querySelector('#endpoint') };
+chrome.storage.local.get({ enabled: true, retain: false, endpoint: '' }, (v) => { fields.enabled.checked=v.enabled; fields.retain.checked=v.retain; fields.endpoint.value=v.endpoint; });
+document.querySelector('#save').addEventListener('click', () => { chrome.storage.local.set({ enabled: fields.enabled.checked, retain: fields.retain.checked, endpoint: fields.endpoint.value.trim() }, () => { document.querySelector('#status').textContent=' Saved'; setTimeout(()=>document.querySelector('#status').textContent='',1500); }); });

@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>LLM Clarification Skill settings</title><link rel="stylesheet" href="options.css"></head>
+<body><main><h1>LLM Clarification Skill settings</h1><p>Defaults are local-only. The MVP never sends prompt text to a server unless you explicitly configure an analysis endpoint.</p>
+<label><input id="enabled" type="checkbox"> Enable interception</label>
+<label><input id="retain" type="checkbox"> Retain recent clarification state locally</label>
+<label>Optional analysis endpoint (advanced)<input id="endpoint" type="url" placeholder="https://example.invalid/analyze"></label>
+<button id="save">Save settings</button><span id="status" role="status"></span>
+<script src="options.js"></script></main></body></html>
