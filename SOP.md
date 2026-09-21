@@ -1,8 +1,8 @@
 # Standard Operating Procedure: LLM Clarification Skill
 
-**Document version:** 1.0  
+**Document version:** 1.1  
 **Applies to:** Universal LLM skill package, browser extension, and repository release workflow  
-**Current release:** v0.4.1  
+**Current release:** v0.4.3  
 **Repository:** [Tselseya/llm-clarification-skill](https://github.com/Tselseya/llm-clarification-skill)
 
 ## 1. Purpose and scope
@@ -15,15 +15,15 @@ The browser extension is a separate local prototype. It can intercept common pro
 
 ## 2. Required files and release assets
 
-Use the v0.4.1 release rather than the repository source archive when installing.
+Use the v0.4.3 release rather than the repository source archive when installing.
 
 | Purpose | Asset |
 |---|---|
 | Claude, ChatGPT, Manus, or other skill upload | [Universal ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal-skill.zip) |
 | Manus or another `.skill` uploader | [Universal `.skill`](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal.skill) |
-| Chrome or Chromium drag-and-drop | [Chrome `.crx`](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.crx) |
-| Chrome or Chromium manual installation | [Chrome extension ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.zip) |
-| Firefox temporary or signed installation | [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-firefox.xpi) |
+| Chrome or Chromium drag-and-drop attempt | [Chrome `.crx`](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.3/llm-clarification-skill-0.4.3-chrome.crx) |
+| Chrome or Chromium recommended installation | [Chrome extension ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.3/llm-clarification-skill-0.4.3-chrome.zip) |
+| Firefox temporary or signed installation | [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.3/llm-clarification-skill-0.4.3-firefox.xpi) |
 
 The universal skill archive must contain exactly one root-level `SKILL.md` and a short `README.md`. The browser extension archive must contain `manifest.json` at its root.
 
@@ -31,7 +31,7 @@ The universal skill archive must contain exactly one root-level `SKILL.md` and a
 
 ### 3.1 General preparation
 
-Download the universal ZIP or `.skill` package from the v0.4.1 release. Do not use GitHub's green **Code > Download ZIP** archive for skill or extension installation. That archive is the entire source repository and is not the same as an upload package.
+Download the universal ZIP or `.skill` package from the v0.4.3 release. Do not use GitHub's green **Code > Download ZIP** archive for skill or extension installation. That archive is the entire source repository and is not the same as an upload package.
 
 Before uploading, inspect the archive if the platform provides a preview or security scan. Confirm that it contains `SKILL.md`, that the filename is uppercase, and that there is no second skill file. Do not upload private conversations, API keys, credentials, or unrelated files.
 
@@ -65,9 +65,11 @@ Do not describe the skill as a system-level enforcement mechanism. It is a reusa
 
 ### 4.1 Chrome or Chromium drag and drop
 
-Download the `.crx` file. Open `chrome://extensions` in Chrome or a compatible Chromium browser. Enable **Developer mode**. Drag the `.crx` file onto the extensions page and confirm installation if the browser presents a confirmation dialog.
+The recommended Chrome/Chromium installation is the extension-only ZIP because it works with **Load unpacked** and avoids the browser's non-Web-Store CRX warning. Download the `.crx` only if you specifically want to test drag-and-drop. Open `chrome://extensions` in Chrome or a compatible Chromium browser and enable **Developer mode**.
 
-If the browser rejects an externally downloaded CRX, use the manual ZIP method below. Some browsers restrict unsigned or externally distributed extensions even when the package is structurally valid.
+When you drag the `.crx` onto the page, Chrome may display: **“This extension is not listed in the Chrome Web Store and may have been added without your knowledge.”** This is an expected browser warning for a locally distributed, unsigned, non–Chrome Web Store extension. It does not by itself mean that the package is malformed, but users should install only packages they have reviewed and trust. If Chrome blocks or does not offer an install confirmation, use the ZIP method below.
+
+If the browser rejects an externally downloaded CRX, use the manual ZIP method below. Some browsers restrict unsigned or externally distributed extensions even when the package is structurally valid. The v0.4.3 ZIP installation is the supported, repeatable path for this project.
 
 ### 4.2 Chrome or Chromium manual ZIP method
 
@@ -154,23 +156,25 @@ For the extension, update by removing the old unpacked extension and loading the
 
 Repeat the first-run tests after every update. At minimum, run the routine, ambiguous, user-override, and extension-fixture tests.
 
+Deleting the downloaded ZIP, CRX, or extracted installer folder does not necessarily uninstall an extension that Chrome has already installed. Chrome stores the installed extension in its own profile. Remove it through `chrome://extensions` when a complete uninstall is required. Likewise, deleting a local `.skill` or ZIP file does not remove a skill already uploaded to Manus, Claude, or another hosted LLM workspace; remove or disable that skill in the host platform.
+
 ## 9. Troubleshooting decision tree
 
 ### Claude says “Zip must contain exactly one SKILL.md file”
 
-You probably uploaded the repository source ZIP or an archive containing both `SKILL.md` and `skill.md`. Download the v0.4.1 universal ZIP. It contains exactly one root-level uppercase `SKILL.md`. Do not rename or combine it with another skill file.
+You probably uploaded the repository source ZIP or an archive containing both `SKILL.md` and `skill.md`. Download the v0.4.3 universal ZIP. It contains exactly one root-level uppercase `SKILL.md`. Do not rename or combine it with another skill file.
 
 ### Manus says “SKILL.md not found in zip file”
 
-You probably uploaded an older package with a lowercase filename or nested layout. Download the v0.4.1 universal `.skill` file or ZIP. Inspect the archive and confirm that `SKILL.md` appears at the root with uppercase letters.
+You probably uploaded an older package with a lowercase filename or nested layout. Download the v0.4.3 universal `.skill` file or ZIP. Inspect the archive and confirm that `SKILL.md` appears at the root with uppercase letters.
 
 ### Chrome says “Manifest file is missing or unreadable”
 
-You selected the repository root instead of the extension root. Use the `.crx` drag-and-drop asset, or extract the extension-only ZIP and select the folder that directly contains `manifest.json`. The GitHub source archive is not a loadable extension package.
+You selected the repository root instead of the extension root. Prefer the v0.4.3 extension-only ZIP, extract it, and select the folder that directly contains `manifest.json`. The GitHub source archive is not a loadable extension package.
 
 ### Chrome rejects the CRX
 
-This may be a browser distribution restriction rather than a malformed package. Enable Developer mode and use the extension-only ZIP with **Load unpacked**. If the browser is managed by an organization, administrator policy may prevent local extension installation.
+This may be a browser distribution restriction rather than a malformed package. Chrome may warn that the extension is not listed in the Chrome Web Store or may block the CRX entirely. Use the v0.4.3 extension-only ZIP with **Load unpacked**. If the browser is managed by an organization, administrator policy may prevent local extension installation.
 
 ### The extension loads but does not intercept a website
 
@@ -205,4 +209,4 @@ A release is complete when the package root structures are correct, all validati
 [1]: https://support.anthropic.com/en/articles/12512198-how-to-create-custom-skills "How to create custom skills | Claude Help Center"
 [2]: https://help.openai.com/en/articles/20001066-skills-in-chatgpt "Skills in ChatGPT | OpenAI Help Center"
 [3]: https://help.manus.im/en/articles/14753565-how-to-share-and-use-skills-in-manus "How to Share and Use Skills in Manus?"
-[4]: https://github.com/Tselseya/llm-clarification-skill/releases/tag/v0.4.1 "LLM Clarification Skill v0.4.1 release"
+[4]: https://github.com/Tselseya/llm-clarification-skill/releases/tag/v0.4.3 "LLM Clarification Skill v0.4.3 release"
