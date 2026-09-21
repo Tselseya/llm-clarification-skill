@@ -27,7 +27,7 @@ The skill asks the model to infer low-risk details, verify important assumptions
 
 ## Quick download and install
 
-The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases). Use the Chrome/Chromium ZIP for Chrome, Edge, Brave, or other Chromium browsers, or the XPI for Firefox.
+The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.2.0/llm-clarification-skill-0.2.0-chrome.zip) or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.2.0/llm-clarification-skill-0.2.0-firefox.xpi).
 
 The repository currently provides a developer-mode package rather than a store-signed extension. That means Chrome still requires Developer mode and Firefox may require a temporary/developer install unless the XPI is signed by Mozilla.
 
