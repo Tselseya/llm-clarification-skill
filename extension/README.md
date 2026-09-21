@@ -10,7 +10,7 @@ The content script uses local heuristics to estimate whether a prompt is long or
 
 ## Known MVP limits
 
-Websites use different editors, event handlers, shadow DOM, and accessibility labels. Generic interception cannot guarantee coverage. A production release should add tested site adapters, a manual command to open the panel, stronger event isolation, accessibility review, and browser-store packaging. The extension does not itself understand every task like an LLM; it is a local heuristic companion to the portable skill.
+Websites use different editors, event handlers, shadow DOM, and accessibility labels. Generic interception cannot guarantee coverage. A production release should improve the general event-detection layer, add a manual command to open the panel, strengthen event isolation, complete accessibility review, and add browser-store packaging. The extension does not itself understand every task like an LLM; it is a local heuristic companion to the portable skill.
 
 ## Local verification fixture
 

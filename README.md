@@ -1,6 +1,6 @@
 # LLM Clarification Skill
 
-A portable, platform-neutral skill that makes an LLM decide when clarification is necessary, ask **one useful question at a time**, and stop when the task is actionable. It includes platform-specific instruction copies and a lightweight browser-extension MVP for stronger, user-controlled interception.
+A portable, platform-neutral skill that makes an LLM decide when clarification is necessary, ask **one useful question at a time**, and stop when the task is actionable. It includes one universal upload package and a lightweight browser-extension MVP for stronger, user-controlled interception.
 
 ## What this is—and is not
 
@@ -13,7 +13,7 @@ The browser extension adds a generic, local-first workflow: it detects likely am
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | Universal skill and compact copy |
-| `platform/` | Copies adapted for ChatGPT, Claude, Manus, and generic system prompts |
+| `packages/llm-clarification-skill/` | One universal upload package for any compatible LLM |
 | `extension/` | Dependency-free Manifest V3/WebExtension MVP |
 | `assets/` | Logo concepts and selected extension branding |
 | `PRIVACY.md` | Data handling and privacy choices |
@@ -21,21 +21,19 @@ The browser extension adds a generic, local-first workflow: it detects likely am
 
 ## Use the skill
 
-Copy `SKILL.md` into a platform's project instructions, custom instructions, system prompt, or skill/knowledge upload area. For a shorter field, use the compact copy at the bottom of the file. Platform-specific versions are in `platform/`.
+Copy `SKILL.md` into any LLM's project instructions, custom instructions, system prompt, or skill/knowledge upload area. For a shorter field, use the compact copy at the bottom of the file. The same file is intended for Claude, ChatGPT, Manus, APIs, local models, and other compatible LLMs.
 
 The skill asks the model to infer low-risk details, verify important assumptions, ask exactly one question when needed, and adapt the number of questions to complexity. It does not require a confirmation for routine work and always respects an explicit user request to proceed.
 
-## Upload packages for Claude, ChatGPT, and Manus
+## One universal upload package
 
-The repository now includes platform-ready packages under `packages/`, each containing a Claude-compatible `skill.md` with YAML metadata and platform notes. Download the release packages from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases), then follow [`docs/PLATFORM-UPLOADS.md`](docs/PLATFORM-UPLOADS.md).
+Download the single [universal skill ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-universal-skill.zip) or [universal `.skill` package](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-universal.skill). Both contain the same `skill.md`. Upload that one package wherever your LLM supports reusable skills, or paste `skill.md` into its instruction field. See [`docs/UNIVERSAL-INSTALL.md`](docs/UNIVERSAL-INSTALL.md).
 
-- **Claude:** upload the Claude ZIP under **Customize > Skills**.
-- **ChatGPT:** upload the ChatGPT ZIP under **Skills > Create > Upload from your computer** where Skills are available; otherwise use Custom Instructions or Project instructions.
-- **Manus:** upload the `.skill` or ZIP under **Skills > + Add > Upload a skill**, or import the public GitHub repository.
+Claude users can upload it under **Customize > Skills**. ChatGPT users can use **Skills > Create > Upload from your computer** where that feature is available. Manus users can use **Skills > + Add > Upload a skill** or import this public repository. No platform-specific skill adapters are required.
 
 ## Quick download and install
 
-The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.3.0/llm-clarification-skill-0.3.0-chrome.zip) or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.3.0/llm-clarification-skill-0.3.0-firefox.xpi).
+The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-chrome.zip) or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-firefox.xpi).
 
 The repository currently provides a developer-mode package rather than a store-signed extension. That means Chrome still requires Developer mode and Firefox may require a temporary/developer install unless the XPI is signed by Mozilla.
 
@@ -56,7 +54,7 @@ After downloading:
 
 For local testing, use the included [`extension/test-fixture.html`](extension/test-fixture.html), or serve the extension directory with `python3 -m http.server 8000` and open `http://localhost:8000/test-fixture.html`. If you open the fixture as a `file://` URL instead, enable **Allow access to file URLs** for the extension on `chrome://extensions`.
 
-The generic adapter watches common `textarea` and `contenteditable` composers and common submit controls. Site-specific DOM changes can reduce reliability; the manual side-panel flow remains available from the extension icon. No build step or npm dependency is required.
+The generic content script watches common `textarea` and `contenteditable` composers and common submit controls. Website DOM changes can reduce reliability; the manual side-panel flow remains available from the extension icon. No build step or npm dependency is required.
 
 ## Firefox
 
@@ -85,7 +83,7 @@ The repository includes a [Privacy Policy](docs/PRIVACY-POLICY.md), [Terms and C
 
 ## Roadmap
 
-Future work can add signed releases, site-specific adapters, accessibility testing, browser-store packaging, optional model-backed ambiguity scoring, encrypted local history, and a formal evaluation set for question quality and unnecessary-question rate.
+Future work can add signed releases, more accessibility testing, browser-store packaging, optional model-backed ambiguity scoring, encrypted local history, and a formal evaluation set for question quality and unnecessary-question rate.
 
 ## License
 

@@ -7,7 +7,7 @@ This register flags material risks found in the current personal open-source pro
 | Area | Current finding | Risk | Mitigation or next action |
 |---|---|---|---|
 | Model behavior | The skill guides models but cannot force them to comply. | Users may assume clarification is guaranteed. | Keep the limitation in the README, skill, and Terms; avoid “guaranteed,” “always,” or “enforced” claims. |
-| Browser interception | Generic DOM/event heuristics may miss or mishandle a site. | A prompt may send without clarification or be duplicated/altered. | Keep bypass visible, test adapters per site, add an event audit, and describe the MVP as generic/prototype. |
+| Browser interception | Generic DOM/event heuristics may miss or mishandle a site. | A prompt may send without clarification or be duplicated/altered. | Keep bypass visible, test the generic flow across representative editors, add an event audit, and describe the MVP as generic/prototype. |
 | Prompt privacy | The extension reads composer text during interception. | Sensitive prompts may be exposed to the host page or browser extension context. | Local-first behavior, no project server, clear permissions, no automatic prompt archive, and prominent sensitive-data warnings. |
 | Optional endpoint | The settings UI contains an endpoint field reserved for future functionality. | Users may misunderstand whether text is transmitted. | The current MVP does not call it; document any future network behavior before enabling it and default to empty/off. |
 | Third-party platforms | ChatGPT, Claude, Manus, GitHub, and browser policies are independent. | Terms, plans, file limits, or upload behavior may change. | Link to official docs, state availability varies, and re-check before each release. |
