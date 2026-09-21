@@ -1,18 +1,18 @@
 # Universal Installation Guide
 
-The project now ships one generalized skill package rather than separate Claude, ChatGPT, or Manus adapters. The same `skill.md` is intended to be uploaded or pasted wherever an LLM accepts reusable instructions.
+The project now ships one generalized skill package rather than separate Claude, ChatGPT, or Manus adapters. The same uppercase `SKILL.md` is intended to be uploaded or pasted wherever an LLM accepts reusable instructions.
 
 ## Download one package
 
-Download the [universal skill ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-universal-skill.zip) or the [universal `.skill` package](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-universal.skill). Both contain the same `llm-clarification-skill/skill.md` file.
+Download the [universal skill ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal-skill.zip) or the [universal `.skill` package](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal.skill). Each archive contains exactly one root-level `SKILL.md` file plus a short README.
 
 ## Claude
 
-Open **Customize > Skills**, choose **Add**, and upload the universal ZIP. Enable it after reviewing the contents. If the Skills feature is unavailable, open a Claude Project and paste the contents of `skill.md` into Project Instructions.
+Open **Customize > Skills**, choose **Add**, and upload the universal ZIP. Enable it after reviewing the contents. If the Skills feature is unavailable, open a Claude Project and paste the contents of `SKILL.md` into Project Instructions.
 
 ## ChatGPT
 
-Where Skills are available, open **Skills > Create > Upload from your computer** and upload the universal ZIP. If Skills are unavailable, paste `skill.md` into Custom Instructions or a Project's instructions. The same file is used; there is no ChatGPT-specific adapter.
+Where Skills are available, open **Skills > Create > Upload from your computer** and upload the universal ZIP. If Skills are unavailable, paste `SKILL.md` into Custom Instructions or a Project's instructions. The same file is used; there is no ChatGPT-specific adapter.
 
 ## Manus
 
@@ -27,8 +27,8 @@ https://github.com/Tselseya/llm-clarification-skill
 Use one of these equivalent methods:
 
 1. Upload the universal ZIP or `.skill` package if the LLM supports skills or knowledge files.
-2. Paste the full contents of `skill.md` into a system prompt, developer prompt, custom instruction, project instruction, or equivalent highest-priority user-configurable field.
-3. Use the compact copy near the end of `skill.md` when the instruction field has a length limit.
+2. Paste the full contents of `SKILL.md` into a system prompt, developer prompt, custom instruction, project instruction, or equivalent highest-priority user-configurable field.
+3. Use the compact copy near the end of `SKILL.md` when the instruction field has a length limit.
 
 ## Recommended test
 

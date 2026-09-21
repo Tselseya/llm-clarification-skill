@@ -13,7 +13,7 @@ The browser extension adds a generic, local-first workflow: it detects likely am
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | Universal skill and compact copy |
-| `packages/llm-clarification-skill/` | One universal upload package for any compatible LLM |
+| `packages/llm-clarification-skill/` | One universal upload package for any compatible LLM; exactly one `SKILL.md` |
 | `extension/` | Dependency-free Manifest V3/WebExtension MVP |
 | `assets/` | Logo concepts and selected extension branding |
 | `PRIVACY.md` | Data handling and privacy choices |
@@ -27,30 +27,28 @@ The skill asks the model to infer low-risk details, verify important assumptions
 
 ## One universal upload package
 
-Download the single [universal skill ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-universal-skill.zip) or [universal `.skill` package](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-universal.skill). Both contain the same `skill.md`. Upload that one package wherever your LLM supports reusable skills, or paste `skill.md` into its instruction field. See [`docs/UNIVERSAL-INSTALL.md`](docs/UNIVERSAL-INSTALL.md).
+Download the single [universal skill ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal-skill.zip) or [universal `.skill` package](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal.skill). Each contains exactly one root-level `SKILL.md`. Upload that one package wherever your LLM supports reusable skills, or paste `SKILL.md` into its instruction field. See [`docs/UNIVERSAL-INSTALL.md`](docs/UNIVERSAL-INSTALL.md).
 
 Claude users can upload it under **Customize > Skills**. ChatGPT users can use **Skills > Create > Upload from your computer** where that feature is available. Manus users can use **Skills > + Add > Upload a skill** or import this public repository. No platform-specific skill adapters are required.
 
 ## Quick download and install
 
-The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-chrome.zip) or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.0/llm-clarification-skill-0.4.0-firefox.xpi).
+The easiest route is to download the latest release asset from the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases): [Chrome/Chromium CRX](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.crx), [Chrome/Chromium ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.zip), or [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-firefox.xpi).
 
 The repository currently provides a developer-mode package rather than a store-signed extension. That means Chrome still requires Developer mode and Firefox may require a temporary/developer install unless the XPI is signed by Mozilla.
 
 ## Download and load the extension MVP in Chrome
 
-You do not install this MVP from the Chrome Web Store yet. Download the repository as a ZIP from GitHub using [this direct download link](https://github.com/Tselseya/llm-clarification-skill/archive/refs/heads/main.zip), or open the repository, click the green **Code** button, and choose **Download ZIP**.
+Do not use the green GitHub **Code > Download ZIP** repository archive for extension installation; that archive contains the source repository, not a loadable extension root. Use the [Chrome CRX](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.crx) for drag-and-drop, or the [Chrome extension ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-chrome.zip) for manual extraction.
 
 After downloading:
 
-1. Extract the ZIP file. Do not select the ZIP itself in Chrome.
-2. Open `chrome://extensions` in Chrome.
-3. Turn on **Developer mode** in the upper-right corner.
-4. Click **Load unpacked**.
-5. Open the extracted repository folder and select its **`extension` subfolder**. Select the folder containing `manifest.json`, not the repository root.
-6. Confirm that **LLM Clarification Skill** appears in the extension list and is enabled.
-7. Open a chat website, type a long or ambiguous prompt, and submit it. The extension may open a clarification panel.
-8. Answer the current question, choose **Continue**, and repeat as needed. Choose **Bypass and send** at any time.
+1. Open `chrome://extensions` in Chrome.
+2. Turn on **Developer mode** in the upper-right corner.
+3. Drag the downloaded `.crx` file onto the extensions page and confirm the install if Chrome presents the confirmation.
+4. If Chrome rejects the CRX, extract the extension ZIP, click **Load unpacked**, and select the extracted folder containing `manifest.json`.
+5. Open a chat website, type a long or ambiguous prompt, and submit it. The extension may open a clarification panel.
+6. Answer the current question, choose **Continue**, and repeat as needed. Choose **Bypass and send** at any time.
 
 For local testing, use the included [`extension/test-fixture.html`](extension/test-fixture.html), or serve the extension directory with `python3 -m http.server 8000` and open `http://localhost:8000/test-fixture.html`. If you open the fixture as a `file://` URL instead, enable **Allow access to file URLs** for the extension on `chrome://extensions`.
 
