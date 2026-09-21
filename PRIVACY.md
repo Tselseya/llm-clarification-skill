@@ -4,8 +4,8 @@ For the complete public policy set, see [`docs/PRIVACY-POLICY.md`](docs/PRIVACY-
 
 The portable skill is text and has no data collection behavior.
 
-The browser-extension MVP runs its ambiguity heuristic in the browser. By default, prompt text, answers, and conversation context are not sent to a project server. The extension may keep ordinary browser extension settings in local storage. The optional retention setting is user-controlled.
+The browser plugin uses the local `prompt-extractor.js` module to detect common composers and read their text only in the page context. By default, prompt text and conversation context are not sent to a project server, and the plugin does not archive prompts or intercept submissions. It reads the composer locally to decide whether an empty composer is ready for the one-time opening instruction. The plugin stores settings, including the customized opening instruction and the enable/disable state, in browser extension local storage.
 
-The options page includes an optional analysis endpoint field for advanced users. It is empty by default. If a user enters an endpoint and a future implementation enables it, the user is responsible for reviewing that service's privacy terms and sending only content they are authorized to share. The current MVP does not call an external endpoint.
+Disabling automatic insertion stops new insertions without deleting the saved instruction. The optional analysis endpoint field is empty by default and is not called by the current release.
 
-No analytics or telemetry is included. Users should treat prompts as potentially sensitive and review the permissions shown by their browser before installation.
+No analytics, telemetry, cookies, tracking pixels, iframes, or third-party embeds are included. Users should treat prompts as potentially sensitive and review the permissions shown by their browser before installation.

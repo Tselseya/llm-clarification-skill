@@ -1,15 +1,15 @@
 # LLM Clarification Skill: Build and Debug History
 
-**Project:** [Tselseya/llm-clarification-skill](https://github.com/Tselseya/llm-clarification-skill)  
-**Current release:** v0.4.3  
-**Project type:** Personal open-source LLM skill with a generic browser-extension prototype  
+**Project:** [Tselseya/llm-clarification-skill](https://github.com/Tselseya/llm-clarification-skill)
+**Current release:** v0.5.1
+**Project type:** Personal open-source LLM skill with a generic browser-plugin prototype
 **Status:** Manus skill uploaded, Claude skill installed by drag and drop, and the browser extension loaded successfully.
 
 ## Executive summary
 
 This project began as a request for a reusable instruction file that would make an LLM ask clarifying questions until it understood a task. The central design decision was to make clarification **adaptive rather than mandatory for every message**. The skill asks one concise, high-value question only when missing information could materially change the result. It asks more questions for complex or high-impact work, fewer for routine work, and respects an explicit user request to proceed.
 
-The project now has two separate deliverables. The first is a universal `SKILL.md` that can be uploaded to compatible LLM skill systems or pasted into a system prompt, custom-instruction field, project instruction field, or local model configuration. The second is a generic browser extension that can pause likely ambiguous submissions, ask one question at a time, and append a clarification brief before sending. The extension is an optional enforcement aid; the skill remains the core product.
+The project now has two separate deliverables. The first is a universal `SKILL.md` that can be uploaded to compatible LLM skill systems or pasted into a system prompt, custom-instruction field, project instruction field, or local model configuration. The second is a generic browser plugin that inserts an editable clarification instruction once into an empty composer at the start of a detected new thread. The plugin is a convenience layer; the skill remains the core product.
 
 The repository was deliberately consolidated into one universal package. Earlier platform-specific wrappers for Claude, ChatGPT, and Manus were removed because they duplicated the same behavior and made installation confusing. Platform differences now appear only in installation instructions, not in the skill logic.
 
@@ -138,16 +138,18 @@ Accessibility improvements include semantic dialog attributes, a visible title, 
 | `v0.4.1` | Corrected packaging and drag-and-drop installers | Added root-level uppercase `SKILL.md`, `.crx`, extension-only ZIP, and corrected instructions. |
 | `v0.4.2` | ChatGPT interception compatibility patch | Improved nested composer detection and removed the arbitrary 80-character gate. |
 | `v0.4.3` | Composer-integrated clarification popover | Replaced the fixed lower-screen panel with a responsive popover anchored to the active composer. |
+| `v0.5.0` | Automatic opening instruction and prompt-extractor plugin | Replaced the clarification panel and send interception with one-time editable insertion. |
+| `v0.5.1` | Non-destructive options toggle and repository alignment | Preserved the saved instruction when disabled and updated current-flow documentation and QA records. |
 
 ## Validation performed
 
-The v0.4.3 validation included JavaScript syntax checks, JSON manifest validation, ZIP integrity checks, extension-root inspection, CRX generation, and a clean Git working tree. The v0.4.3 release contains the Chrome `.crx`, Chrome extension ZIP, and Firefox XPI. The universal skill package remains available from v0.4.1.
+The v0.4.3 validation included JavaScript syntax checks, JSON manifest validation, ZIP integrity checks, extension-root inspection, CRX generation, and a clean Git working tree. Those checks describe the historical v0.4.3 release. The current v0.5.1 source validation additionally checks the prompt-extractor module, the non-blocking injection flow, the options toggle, and the updated local fixture.
 
 The user confirmed that the Manus skill uploaded successfully, the Claude skill installed by drag and drop, and the browser extension loaded successfully. The user then reported that the CRX produced a Chrome non-Web-Store warning while the ZIP installed successfully. That result established the ZIP as the recommended extension installation method.
 
 ## Current limitations
 
-The universal skill remains a guidance layer. It cannot override system instructions, platform safety rules, account restrictions, workspace settings, or model behavior. The extension uses generic heuristics and common browser controls. It cannot guarantee interception on every website or understand every task as deeply as an LLM.
+The universal skill remains a guidance layer. It cannot override system instructions, platform safety rules, account restrictions, workspace settings, or model behavior. The plugin uses generic composer and thread detection. It cannot guarantee insertion on every website or understand every task as deeply as an LLM.
 
 The current project does not provide a hosted account system, a prompt vault, a support service, a payment flow, a newsletter, or a commercial business identity. Adding any of those features would require a new privacy, security, consent, legal, accessibility, and operational review.
 
@@ -163,3 +165,7 @@ The current project does not provide a hosted account system, a prompt vault, a 
 The v0.5.0 direction replaces the composer-anchored clarification popover with a simpler, user-editable opening instruction. When an empty composer appears at the start of a detected new thread, the browser plugin inserts the configured instruction once. The user can edit or delete that text; deletion is the bypass path. The plugin no longer intercepts Enter or Send events, asks questions itself, appends a clarification brief, or blocks ordinary submissions.
 
 The former generic content script was split conceptually into `prompt-extractor.js`, which exposes local composer detection and text extraction, and `content.js`, which handles thread changes and one-time injection. The universal skill package now uses the same direct instruction: “Ask me clarifying questions one at a time until you understand the task.”
+
+## v0.5.1 options and documentation alignment
+
+The options page now makes the automatic-instruction toggle and its non-destructive behavior explicit. Turning the toggle off prevents future automatic insertion but preserves the saved opening instruction. The options UI adds explanatory help text, a labeled instruction editor, and a live save-status message. The SOP, README files, accessibility QA, privacy policy, risk register, and terms now describe the current non-blocking plugin rather than the retired clarification panel.

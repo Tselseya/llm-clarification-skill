@@ -5,6 +5,7 @@ const fields = {
   instruction: document.querySelector('#instruction'),
   endpoint: document.querySelector('#endpoint')
 };
+const status = document.querySelector('#status');
 
 chrome.storage.local.get({ enabled: true, retain: false, instruction: DEFAULT_INSTRUCTION, endpoint: '' }, (values) => {
   fields.enabled.checked = values.enabled !== false;
@@ -21,7 +22,9 @@ document.querySelector('#save').addEventListener('click', () => {
     instruction,
     endpoint: fields.endpoint.value.trim()
   }, () => {
-    document.querySelector('#status').textContent = ' Saved';
-    setTimeout(() => { document.querySelector('#status').textContent = ''; }, 1500);
+    status.textContent = fields.enabled.checked
+      ? ' Saved. Automatic insertion is enabled.'
+      : ' Saved. Automatic insertion is disabled; your instruction was kept.';
+    setTimeout(() => { status.textContent = ''; }, 3000);
   });
 });

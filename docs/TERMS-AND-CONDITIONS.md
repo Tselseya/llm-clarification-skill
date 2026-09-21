@@ -1,6 +1,6 @@
 # Terms and Conditions
 
-**Last updated:** 2026-09-21
+**Last updated:** 2026-09-22
 
 ## Project status
 
@@ -12,15 +12,15 @@ The copyright and permission terms for the source code are in [`LICENSE`](../LIC
 
 ## No guarantee
 
-The skill is an instruction layer and the extension is a generic browser prototype. Models may ignore, reinterpret, or override instructions, and websites may change their interfaces. The project does not guarantee that a model will ask enough questions, that a message will always be intercepted, that a submission will always be stopped, or that any output will be accurate, complete, safe, or suitable for a particular purpose.
+The skill is an instruction layer and the browser plugin is a generic integration. Models may ignore, reinterpret, or override instructions, and websites may change their interfaces. The project does not guarantee that a model will ask enough questions, that the plugin will recognize every composer or new-thread control, that an instruction will always be inserted, or that any output will be accurate, complete, safe, or suitable for a particular purpose. The plugin does not block or rewrite submissions in the current release.
 
 ## User responsibility
 
-You are responsible for reviewing prompts, clarification answers, generated outputs, permissions, external side effects, and submissions. Do not use the project as a substitute for legal, medical, financial, employment, security, accessibility, privacy, or other professional advice. Do not submit or publish generated content without appropriate human review.
+You are responsible for reviewing prompts, inserted instructions, generated outputs, permissions, external side effects, and submissions. You may edit or delete the inserted instruction before sending. Do not use the project as a substitute for legal, medical, financial, employment, security, accessibility, privacy, or other professional advice. Do not submit or publish generated content without appropriate human review.
 
 ## External services and content
 
-The project does not control external LLM platforms or websites. Their terms, privacy notices, account settings, security controls, retention policies, and content rules apply independently. A public GitHub repository is not a promise that a third-party platform will accept, execute, or enable the skill.
+The project does not control external LLM platforms or websites. Their terms, privacy notices, account settings, security controls, retention policies, and content rules apply independently. A public GitHub repository is not a promise that a third-party platform will accept, execute, or enable the skill or plugin.
 
 ## Disclaimer and limitation
 

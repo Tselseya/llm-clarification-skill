@@ -1,19 +1,21 @@
 # Accessibility and Interface QA
 
-**Last updated:** 2026-09-21
+**Last updated:** 2026-09-22
 
-## Implemented in the current MVP
+## Current interface
 
-The clarification panel uses a semantic dialog container, a visible title, a descriptive introduction, a labeled answer field, live status announcements for the question and progress, clear button labels, and an Escape-key close path. The popup and options page use semantic labels and visible focus outlines. The primary and secondary controls use dark text or white text against high-contrast backgrounds. The panel adapts to narrow screens.
+The browser plugin does not create a clarification dialog or block submission. It inserts editable text directly into the host page's composer. The user can edit or delete that text using the host editor's normal keyboard and pointer controls. The options page provides a labeled enable/disable checkbox, a labeled instruction textarea, a labeled retention checkbox, an endpoint field, a save button, and a live save-status message.
 
-The selected logo is a symbolic mark rather than a text-bearing image. When it is shown in documentation, use descriptive alternative text such as “Indigo speech bubble with a question mark and check mark.” Do not rely on color alone to communicate state; the extension uses words such as “Continue” and “Bypass clarification and send.”
+The enable toggle is explicitly described as non-destructive: turning it off stops automatic insertion but preserves the saved instruction. The selected logo is a symbolic mark rather than a text-bearing image; documentation should provide descriptive alternative text when displaying it.
 
 ## Review checklist
 
-Keyboard-only users should be able to reach the extension controls, answer the question, continue, bypass, and close the panel. Screen-reader users should hear the current question and progress update. Buttons should describe their action without relying on an icon. Text should remain readable when zoomed. The extension should not trap focus in a way that prevents returning to the host page.
+Keyboard-only users should be able to reach the options toggle, instruction textarea, optional settings, and save button. The focus indicator must remain visible. Screen-reader users should hear the toggle's description, including that disabling it preserves the instruction, and should receive the save result through the status region. Text should remain readable when zoomed and the textarea should be resizable.
+
+The plugin must not trap focus, replace user-entered composer text, or require the user to interact with a custom dialog. Deleting the inserted instruction must remain a complete and understandable bypass path.
 
 ## Remaining risks
 
-The generic content script runs on changing third-party websites whose DOM, focus behavior, shadow DOM, and accessibility tree are outside project control. Site-specific testing is required before claiming broad compatibility. Automated checks and manual screen-reader testing should be added before a browser-store submission. Accessibility conformance has not been certified.
+The content script runs on changing third-party websites whose DOM, focus behavior, shadow DOM, and accessibility trees are outside project control. The generic extractor may not recognize a custom editor, and the host page may expose its composer inconsistently. Test representative sites and keyboard flows before claiming broad compatibility. Accessibility conformance has not been certified.
 
 This document records engineering intent, not a legal accessibility guarantee.

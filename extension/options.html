@@ -2,9 +2,16 @@
 <html lang="en">
 <head><meta charset="utf-8"><title>LLM Clarification Skill settings</title><link rel="stylesheet" href="options.css"></head>
 <body><main><h1>LLM Clarification Skill settings</h1><p>The plugin works locally. It inserts the opening instruction into an empty composer once per detected chat thread. Users can edit or delete it before sending.</p>
-<label><input id="enabled" type="checkbox"> Enable automatic instruction</label>
+<fieldset><legend>Automatic opening instruction</legend>
+<label class="toggle"><input id="enabled" type="checkbox" aria-describedby="enabled-help"><span>Enable automatic instruction</span></label>
+<p id="enabled-help" class="help">Turn this off to stop automatic insertion. Your saved instruction remains here and can be re-enabled later; disabling it does not delete or clear the instruction.</p>
+<label>Opening instruction<textarea id="instruction" rows="5" spellcheck="true" aria-describedby="instruction-help"></textarea></label>
+<p id="instruction-help" class="help">This text is inserted into an empty composer once at the start of a detected new chat thread.</p>
+</fieldset>
+<fieldset><legend>Optional settings</legend>
 <label><input id="retain" type="checkbox"> Retain recent clarification state locally</label>
-<label>Opening instruction<textarea id="instruction" rows="5" spellcheck="true"></textarea></label>
 <label>Optional analysis endpoint (advanced)<input id="endpoint" type="url" placeholder="https://example.invalid/analyze"></label>
-<button id="save">Save settings</button><span id="status" role="status"></span>
+<p class="help">The current plugin does not call this endpoint.</p>
+</fieldset>
+<button id="save">Save settings</button><span id="status" role="status" aria-live="polite"></span>
 <script src="options.js"></script></main></body></html>

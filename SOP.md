@@ -1,212 +1,127 @@
 # Standard Operating Procedure: LLM Clarification Skill
 
-**Document version:** 1.1  
-**Applies to:** Universal LLM skill package, browser extension, and repository release workflow  
-**Current release:** v0.4.3  
+**Document version:** 2.0
+**Applies to:** Universal LLM skill package, browser plugin, prompt extractor, and repository release workflow
+**Current source version:** v0.5.1
 **Repository:** [Tselseya/llm-clarification-skill](https://github.com/Tselseya/llm-clarification-skill)
 
 ## 1. Purpose and scope
 
-This procedure explains how to install, test, use, update, and troubleshoot the LLM Clarification Skill. It covers the universal skill package for LLM platforms and the optional generic browser extension.
+This procedure explains how to install, configure, test, use, update, and troubleshoot the LLM Clarification Skill and its optional browser plugin. The universal skill guides an LLM to ask one concise clarifying question at a time until the task is understood. The browser plugin inserts an editable opening instruction into an empty composer once per detected new chat thread.
 
 The skill is an instruction layer. It does not technically force an LLM to follow the rules. The host platform's system instructions, safety policies, model behavior, account plan, workspace configuration, and file limits remain higher priority.
 
-The browser extension is a separate local prototype. It can intercept common prompt-submission paths, ask one clarification question at a time, and append a structured brief. It is not required to use the skill.
+The browser plugin is local-first and non-blocking. It does not open a clarification panel, intercept Enter or Send events, ask questions itself, append a clarification brief, or transmit prompt text to a project server. The user can edit or delete the inserted instruction before sending.
 
-## 2. Required files and release assets
+## 2. Repository components
 
-Use the v0.4.3 release rather than the repository source archive when installing.
+| Component | Location | Function |
+|---|---|---|
+| Universal skill | `SKILL.md` | Portable LLM behavior instruction |
+| Upload package | `packages/llm-clarification-skill/` | Root-level `SKILL.md` package for compatible LLMs |
+| Browser plugin | `extension/` | Manifest V3/WebExtension implementation |
+| Prompt extractor | `extension/prompt-extractor.js` | Detects common composers and reads their local text |
+| Thread injector | `extension/content.js` | Inserts the opening instruction once per detected thread |
+| Options UI | `extension/options.html` | Enables/disables insertion and edits the saved instruction |
+| Test fixture | `extension/test-fixture.html` | Manual local verification page |
 
-| Purpose | Asset |
-|---|---|
-| Claude, ChatGPT, Manus, or other skill upload | [Universal ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal-skill.zip) |
-| Manus or another `.skill` uploader | [Universal `.skill`](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.1/llm-clarification-skill-0.4.1-universal.skill) |
-| Chrome or Chromium drag-and-drop attempt | [Chrome `.crx`](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.3/llm-clarification-skill-0.4.3-chrome.crx) |
-| Chrome or Chromium recommended installation | [Chrome extension ZIP](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.3/llm-clarification-skill-0.4.3-chrome.zip) |
-| Firefox temporary or signed installation | [Firefox XPI](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.4.3/llm-clarification-skill-0.4.3-firefox.xpi) |
+## 3. Browser plugin configuration
 
-The universal skill archive must contain exactly one root-level `SKILL.md` and a short `README.md`. The browser extension archive must contain `manifest.json` at its root.
+Open the extension's options page through `chrome://extensions` or the browser's extension details screen. The **Enable automatic instruction** toggle controls insertion independently of the saved text.
 
-## 3. Universal skill installation
+When enabled, the plugin inserts the configured opening instruction into an empty detected composer. When disabled, it performs no automatic insertion. Disabling does **not** delete, reset, or overwrite the saved instruction. Re-enabling restores the previous behavior and uses the saved text.
 
-### 3.1 General preparation
+The **Opening instruction** textarea controls the text inserted into a new thread. Saving an empty textarea restores the default instruction. The optional retention and analysis-endpoint fields remain local settings; the current plugin does not call the endpoint.
 
-Download the universal ZIP or `.skill` package from the v0.4.3 release. Do not use GitHub's green **Code > Download ZIP** archive for skill or extension installation. That archive is the entire source repository and is not the same as an upload package.
+## 4. Installation
 
-Before uploading, inspect the archive if the platform provides a preview or security scan. Confirm that it contains `SKILL.md`, that the filename is uppercase, and that there is no second skill file. Do not upload private conversations, API keys, credentials, or unrelated files.
+### 4.1 Chrome or Chromium
 
-### 3.2 Claude
+Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the `extension/` directory that directly contains `manifest.json`. Do not select the repository root or a parent directory.
 
-Open Claude's skill management area through **Customize > Skills**. Choose **Add**, select the universal ZIP, and wait for the security scan or import process to finish. Review the skill contents and enable it.
-
-To verify the installation, start a new conversation and use a request that has one meaningful ambiguity. The model should ask one concise question rather than displaying a questionnaire. Answer the question and check whether it reassesses the remaining uncertainty.
-
-If the Skills feature is unavailable, open a Claude Project and paste the complete contents of `SKILL.md` into Project Instructions. The behavior is the same, but the platform may apply different limits to project instructions.
-
-### 3.3 ChatGPT
-
-Where ChatGPT Skills are available, open **Skills > Create > Upload from your computer** and select the universal ZIP. Review the platform's scan result and enable the skill.
-
-If the Skills interface is not available, copy `SKILL.md` into Custom Instructions or a Project's instruction field. If the field has a length limit, use the compact copy near the end of `SKILL.md`.
-
-### 3.4 Manus
-
-Open **Skills**, select **+ Add**, and choose **Upload a skill**. Upload the universal `.skill` file or the universal ZIP. The archive must contain an uppercase root-level `SKILL.md`.
-
-After import, enable or invoke the skill in a test conversation. Manus may also support importing the public repository, but the release `.skill` file is the preferred deterministic installation artifact.
-
-### 3.5 Other LLMs, APIs, and local models
-
-If the product supports skill or knowledge uploads, upload the universal ZIP. If it accepts only text instructions, paste the full `SKILL.md` into the highest-priority user-configurable instruction field available. For an API or local model, place the content in the system or developer message according to that application's instruction hierarchy.
-
-Do not describe the skill as a system-level enforcement mechanism. It is a reusable behavioral instruction that may be ignored or overridden by the host model.
-
-## 4. Browser-extension installation
-
-### 4.1 Chrome or Chromium drag and drop
-
-The recommended Chrome/Chromium installation is the extension-only ZIP because it works with **Load unpacked** and avoids the browser's non-Web-Store CRX warning. Download the `.crx` only if you specifically want to test drag-and-drop. Open `chrome://extensions` in Chrome or a compatible Chromium browser and enable **Developer mode**.
-
-When you drag the `.crx` onto the page, Chrome may display: **“This extension is not listed in the Chrome Web Store and may have been added without your knowledge.”** This is an expected browser warning for a locally distributed, unsigned, non–Chrome Web Store extension. It does not by itself mean that the package is malformed, but users should install only packages they have reviewed and trust. If Chrome blocks or does not offer an install confirmation, use the ZIP method below.
-
-If the browser rejects an externally downloaded CRX, use the manual ZIP method below. Some browsers restrict unsigned or externally distributed extensions even when the package is structurally valid. The v0.4.3 ZIP installation is the supported, repeatable path for this project.
-
-### 4.2 Chrome or Chromium manual ZIP method
-
-Download the extension-only ZIP, not the repository source ZIP. Extract it into a folder. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the extracted folder that directly contains `manifest.json`.
-
-The correct folder looks like this:
+The extension root contains at least:
 
 ```text
-extension-package/
+extension/
 ├── manifest.json
 ├── content.js
-├── content.css
-├── popup.html
-├── popup.js
+├── prompt-extractor.js
 ├── options.html
 ├── options.js
+├── options.css
+├── popup.html
+├── popup.js
+├── popup.css
 ├── icons/
 └── test-fixture.html
 ```
 
-Do not select a parent folder containing another `extension` folder. Do not select the repository root. Do not select the ZIP file itself.
+### 4.2 Firefox
 
-### 4.3 Firefox
-
-Use the XPI release asset or load the extension temporarily through `about:debugging`. Select **This Firefox**, choose **Load Temporary Add-on**, and select the extension manifest or XPI according to the Firefox version's interface. A permanent public Firefox installation generally requires Mozilla signing.
+Open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `extension/manifest.json`. A permanent public Firefox installation generally requires Mozilla signing.
 
 ## 5. First-run verification
 
-Perform the following tests after installing the skill. Record the result if the installation will be used by a team.
+### Test A: automatic insertion
 
-### Test A: routine and unambiguous request
+Open a new chat page with an empty composer. Confirm that the configured opening instruction appears directly inside the normal composer. No floating panel should appear.
 
-Use a request such as “Rewrite this sentence in a professional tone.” The model should proceed without asking a redundant question.
+### Test B: one-time behavior
 
-### Test B: missing high-value detail
+Trigger a DOM rerender or refocus the composer in the same thread. Confirm that the instruction is not duplicated.
 
-Use a request such as “Create a launch plan for my product.” The model should ask one concise question, such as which audience, product, or launch goal is intended. It should not ask for every possible field at once.
+### Test C: user bypass
 
-### Test C: incremental clarification
+Delete the inserted instruction and send a normal message. Confirm that the host page receives the user's text without the plugin blocking or rewriting the submission.
 
-Answer the first question with a partial answer. The model should reassess and ask another question only if the remaining uncertainty could materially change the result.
+### Test D: disable and preserve
 
-### Test D: user does not know
+Open the options page, turn off **Enable automatic instruction**, and save. Open a new thread and confirm that no instruction is inserted. Reopen settings and confirm that the customized instruction is still present. Re-enable the toggle and confirm that it is inserted in the next detected new thread.
 
-Answer a clarification question with “I don't know; choose what you think is best.” The model should choose a reasonable default, label the assumption when it matters, and continue rather than repeatedly demanding an exact answer.
+### Test E: editable instruction
 
-### Test E: explicit override
+Change the opening instruction in settings, save, open a new thread, and confirm that the new wording is inserted. Existing composer text must not be overwritten.
 
-Tell the model, “Proceed without asking more questions.” The skill should respect the override, state material assumptions where useful, and continue. The model should still flag risks or approvals required for high-impact actions.
+### Test F: universal skill behavior
 
-### Test F: high-impact request
+Use an ambiguous request such as “Create a launch plan for my product.” The LLM should ask one concise, high-value question. Answer it and verify that the model reassesses remaining uncertainty instead of presenting a fixed questionnaire. Tell it to proceed without further questions and verify that it respects the override while stating material assumptions.
 
-Use a request that could affect money, legal records, employment, health, government submissions, account security, public publishing, or deletion. The model should distinguish clarification from authorization and should not treat the skill as a substitute for human review or required confirmation.
+## 6. Prompt-extractor behavior
 
-### Test G: extension fixture
+The extractor recognizes `textarea`, text inputs, `[contenteditable="true"]`, and `[role="textbox"]` elements. It reads `.value` from form controls and `.innerText` or `.textContent` from editable elements. It normalizes non-breaking spaces and surrounding whitespace through `normalizePrompt()`.
 
-Open the included `extension/test-fixture.html` in a browser. If it is opened as a `file://` URL, enable the extension's **Allow access to file URLs** permission. Alternatively, serve the extension directory with a local HTTP server and open the fixture through `http://localhost:8000/test-fixture.html`.
+To support a site-specific editor, add its selector to `isComposer()` and add a site-specific branch to `extractPrompt()`. Keep extraction local and deterministic. Do not add network calls, remote code, prompt archives, or site-specific assumptions without updating the privacy and risk documents.
 
-Type an ambiguous or long request into the fixture and submit it. The clarification panel should appear. Answer the question, continue, and confirm that the resulting brief is appended. Repeat the test using **Bypass clarification and send** and verify that the original prompt is not modified when no answers have been provided.
+## 7. Troubleshooting
 
-## 6. Normal operating procedure
+### The old clarification panel still appears
 
-When starting a new LLM conversation, use the installed skill normally. Do not paste the clarification instruction again unless the platform is not applying the skill or the conversation has an explicit instruction conflict.
+The browser is running an older installed copy or an old unpacked folder. Open the extension management page, identify duplicate copies, remove the old copy, reload the current `extension/` directory, and fully reload the chat tab. The current v0.5 flow has no clarification panel or send interception.
 
-The skill should ask questions only when an answer could materially change the output. It should infer low-risk details from existing context. It should ask one question at a time, reassess after each answer, and stop once the task is actionable.
+### No instruction appears
 
-For routine work, expect direct execution. For complex or high-impact work, expect a concise understanding summary containing the goal, deliverable, material assumptions, and risks. Confirmation is appropriate when the task has a consequential external side effect or when the user's intent is still materially uncertain.
+Confirm that **Enable automatic instruction** is on, the instruction is non-empty, the current composer is empty, and the browser has reloaded the current extension files. Test `extension/test-fixture.html` first. A third-party site may use a custom editor or shadow DOM that the generic extractor cannot recognize.
 
-Do not treat a clarification question as approval to send, publish, purchase, delete, submit, or change access. Review those actions independently.
+### The instruction appears twice
 
-## 7. Privacy and data-handling procedure
+Reload the current extension and check for duplicate installed copies. The current implementation tracks one insertion per detected thread and composer. If a site changes its URL or new-thread control in a nonstandard way, record the DOM structure and update the thread-detection logic before adding a site-specific adapter.
 
-The universal skill is plain text and does not collect data. The browser extension operates locally by default. It reads composer content while the extension is active and may store settings in extension local storage.
+### The extension manifest is missing
 
-Before using the extension with sensitive work, review the browser permissions and the host website's privacy terms. Do not paste passwords, private keys, regulated personal data, or information that you are not authorized to share into an LLM or test fixture.
-
-The current repository does not include project analytics, telemetry, cookies, tracking pixels, forms, iframes, third-party embeds, or a prompt archive. If a future version adds remote analysis, telemetry, account services, or hosted pages, update the Privacy Policy, Cookie Policy, Form Consent statement, and Risk Register before release.
-
-## 8. Updating the installation
-
-Check the [GitHub Releases page](https://github.com/Tselseya/llm-clarification-skill/releases) for a newer version. Read the release notes before updating. Disable or remove the old skill before importing a replacement if the platform would otherwise keep both copies active.
-
-For the extension, update by removing the old unpacked extension and loading the new extension-only package, or by installing the new CRX if the browser permits it. Confirm that the extension version and icon have changed as expected.
-
-Repeat the first-run tests after every update. At minimum, run the routine, ambiguous, user-override, and extension-fixture tests.
-
-Deleting the downloaded ZIP, CRX, or extracted installer folder does not necessarily uninstall an extension that Chrome has already installed. Chrome stores the installed extension in its own profile. Remove it through `chrome://extensions` when a complete uninstall is required. Likewise, deleting a local `.skill` or ZIP file does not remove a skill already uploaded to Manus, Claude, or another hosted LLM workspace; remove or disable that skill in the host platform.
-
-## 9. Troubleshooting decision tree
-
-### Claude says “Zip must contain exactly one SKILL.md file”
-
-You probably uploaded the repository source ZIP or an archive containing both `SKILL.md` and `skill.md`. Download the v0.4.3 universal ZIP. It contains exactly one root-level uppercase `SKILL.md`. Do not rename or combine it with another skill file.
-
-### Manus says “SKILL.md not found in zip file”
-
-You probably uploaded an older package with a lowercase filename or nested layout. Download the v0.4.3 universal `.skill` file or ZIP. Inspect the archive and confirm that `SKILL.md` appears at the root with uppercase letters.
-
-### Chrome says “Manifest file is missing or unreadable”
-
-You selected the repository root instead of the extension root. Prefer the v0.4.3 extension-only ZIP, extract it, and select the folder that directly contains `manifest.json`. The GitHub source archive is not a loadable extension package.
-
-### Chrome rejects the CRX
-
-This may be a browser distribution restriction rather than a malformed package. Chrome may warn that the extension is not listed in the Chrome Web Store or may block the CRX entirely. Use the v0.4.3 extension-only ZIP with **Load unpacked**. If the browser is managed by an organization, administrator policy may prevent local extension installation.
-
-### The extension loads but does not intercept a website
-
-The extension uses generic heuristics and common DOM controls. A website may use a custom editor, shadow DOM, unusual event dispatch, or an inaccessible Send control. Test the local fixture first. If the fixture works, use the extension's manual panel or bypass behavior on the affected website. Do not assume that generic interception covers every site.
+Select the folder containing `manifest.json`, not the repository root and not the ZIP file.
 
 ### The skill installs but the model asks no questions
 
-Check that the skill is enabled and that the conversation is using the intended project or instruction context. Test with an intentionally ambiguous complex request. If the model still does not ask, the platform or model may be applying a higher-priority instruction or may not support the uploaded skill format. Paste the standalone `SKILL.md` into the platform's instruction field as a comparison test.
+Check that the skill is enabled and that the conversation uses the intended project or instruction context. The browser plugin only inserts text; it cannot force model behavior. Test with the standalone `SKILL.md` in the platform's supported instruction field.
 
-### The model asks too many questions
+## 8. Privacy and safety
 
-Check whether the request is genuinely ambiguous and whether the user's answer introduced new uncertainty. The skill should ask one question per turn, not one question total. If the model is asking checklist questions that do not affect the result, report the example and use the explicit override to proceed. The example can then be used to improve a future skill revision.
+The universal skill is plain text. The browser plugin reads composer text locally to determine whether a composer is empty and to extract text for its local decision. It stores settings in browser extension local storage. It does not call the optional endpoint in the current release and does not include analytics, telemetry, cookies, tracking pixels, iframes, or a project-operated server.
 
-## 10. Maintainer release procedure
+Review host-site permissions before installation. Do not use the plugin with secrets, private keys, authentication tokens, regulated personal data, or information that you are not authorized to share.
 
-A maintainer making a new release should first update the skill or extension source and run the relevant syntax checks. Validate `extension/manifest.json` as JSON, run `node --check` on each JavaScript file, and inspect the archive contents before uploading release assets.
+## 9. Release procedure
 
-The universal skill archive must be created from the package directory's files directly so that `SKILL.md` is at the archive root. It must contain exactly one `SKILL.md`. The extension ZIP must be created from the contents of `extension/` so that `manifest.json` is at the archive root. If a CRX is created, keep the private signing key outside the repository and never publish it.
+Before releasing a change, update source code and all behavior-sensitive documentation, including this SOP, README files, accessibility QA, privacy policy, risk register, terms, and build history. Run `node --check` on each JavaScript file, validate `extension/manifest.json`, run `git diff --check`, verify the fixture instructions, and inspect the final Git status.
 
-After building assets, run ZIP integrity tests, inspect the root entries, verify the release asset names, and test downloads from the published release. Update the README and `docs/UNIVERSAL-INSTALL.md` only after the final release version is known. Commit source changes, push the main branch, publish the release, and verify the Git working tree is clean.
-
-Every release should update the Risk Register when it changes permissions, network behavior, data retention, external services, legal claims, or user-facing installation behavior.
-
-## 11. Completion criteria
-
-An installation is complete when the correct package is uploaded, the skill is enabled, and the first-run tests pass. An extension installation is complete when the browser shows the extension as enabled, the local fixture behaves correctly, and the user understands how to bypass the workflow.
-
-A release is complete when the package root structures are correct, all validation checks pass, the release assets are downloadable, the documentation points to the current version, and no credentials or private keys are present in Git.
-
-## References
-
-[1]: https://support.anthropic.com/en/articles/12512198-how-to-create-custom-skills "How to create custom skills | Claude Help Center"
-[2]: https://help.openai.com/en/articles/20001066-skills-in-chatgpt "Skills in ChatGPT | OpenAI Help Center"
-[3]: https://help.manus.im/en/articles/14753565-how-to-share-and-use-skills-in-manus "How to Share and Use Skills in Manus?"
-[4]: https://github.com/Tselseya/llm-clarification-skill/releases/tag/v0.4.3 "LLM Clarification Skill v0.4.3 release"
+For a universal skill package, ensure the archive contains exactly one uppercase root-level `SKILL.md`. For a browser package, ensure `manifest.json`, `prompt-extractor.js`, and `content.js` are at the package root. Record the release version and behavior changes in `BUILD-AND-DEBUG-HISTORY.md`.

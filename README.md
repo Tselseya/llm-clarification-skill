@@ -29,7 +29,7 @@ Copy `SKILL.md` into an LLM's project instructions, custom instructions, system 
 
 For Chrome/Chromium, download or clone the repository, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the `extension/` folder containing `manifest.json`. For Firefox development, open `about:debugging`, choose **This Firefox**, select **Load Temporary Add-on**, and choose `extension/manifest.json`. Store-ready installs require browser-store signing.
 
-After installation, open a chat site. When a new thread has an empty composer, the plugin inserts the opening instruction once. Edit or delete that text whenever you want; deleting it is the bypass. Open the plugin action or options page to customize the instruction or disable automatic insertion.
+After installation, open a chat site. When a new thread has an empty composer, the plugin inserts the opening instruction once. Edit or delete that text whenever you want; deleting it is the bypass. Open the plugin action or options page to customize the instruction. The **Enable automatic instruction** toggle can disable insertion without deleting the saved instruction; re-enable it later to restore the behavior.
 
 For local testing, open [`extension/test-fixture.html`](extension/test-fixture.html) after loading the unpacked plugin. The fixture verifies insertion and ordinary host submission without a popup or send interception.
 
