@@ -2,6 +2,18 @@
 
 A portable instruction package and browser plugin that helps an LLM clarify tasks one question at a time.
 
+## Download the browser plugin here
+
+Choose **one** file based on your browser. These are direct download links:
+
+| Browser | Click this file | What to do next |
+|---|---|---|
+| Chrome or Chromium — easiest | [**Download the CRX installer**](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.5.1/llm-clarification-plugin-0.5.1.crx) | Drag the downloaded file onto `chrome://extensions`. |
+| Chrome or Chromium — if CRX is blocked | [**Download the ZIP installer**](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.5.1/llm-clarification-plugin-0.5.1.zip) | Extract it, then choose **Developer mode > Load unpacked**. |
+| Firefox — temporary testing | [**Download the XPI installer**](https://github.com/Tselseya/llm-clarification-skill/releases/download/v0.5.1/llm-clarification-plugin-0.5.1.xpi) | Open `about:debugging` > **This Firefox** > **Load Temporary Add-on**. |
+
+If you are using **Chrome or Chromium**, click **Download the CRX installer** first. The complete step-by-step guide is in [`docs/INSTALL.md`](docs/INSTALL.md). You can also view the [v0.5.1 release page](https://github.com/Tselseya/llm-clarification-skill/releases/tag/v0.5.1).
+
 ## What this is
 
 The universal `SKILL.md` guides an LLM to ask concise clarifying questions until it understands the task. The optional browser plugin automatically inserts an editable opening instruction once into the first empty composer of each detected new chat thread:
